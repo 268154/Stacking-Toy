@@ -1,0 +1,50 @@
+def display_stack(stack):
+    # Create a more complex ASCII representation of the stacking toy
+    if not stack:
+        print("No rings are left on the toy.")
+        return
+    
+    print("    _____")
+    for color in reversed(stack):  # Show the stack from top to bottom
+        print(f"   |     |")
+        print(f"   |{color.capitalize()} |")
+        print(f"   |_____|")
+    
+    print("      |")
+    print("      |")
+    print("      |")
+    print("   -----")
+
+def main():
+    stack = []  # Creating empty stack
+    colors = ['red', 'orange', 'yellow', 'green', 'blue']  # Available colors
+    
+    while True:
+        action = input("Do you want to ADD or REMOVE a color? (type 'EXIT' to quit): ").strip().lower()
+        
+        if action == 'add':
+            color = input(f"Enter a color to add ({', '.join(colors)}): ").strip().lower()
+            
+            if color in colors:
+                stack.append(color)
+                print(f"{color} added.")
+                display_stack(stack)  # Show the updated stack
+            else:
+                print("Invalid color. Please choose from red, orange, yellow, green, or blue.")
+        
+        elif action == 'remove':
+            if stack:
+                removed_color = stack.pop()
+                print(f"Removed {removed_color}.")
+                display_stack(stack)  # Show the updated stack
+            else:
+                print("The stack is empty. Nothing to remove.")
+        
+        elif action == 'exit':
+            print("Exiting program.")
+            break
+        
+        else:
+            print("Invalid input. Please type 'ADD', 'REMOVE', or 'EXIT'.")
+
+main()
