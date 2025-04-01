@@ -1,45 +1,68 @@
+#function for pushing colors to the stack
+def push(stack, item):
+    if item not in stack:
+        stack.append(item)
+    else:
+        print(f"{item.capitalize()} is already on the stack.")
+
+def pop(stack):
+    if stack:
+        return stack.pop()
+    else:
+        return None
+
 def display_stack(stack):
-    # Create ASCII art representation of the stacking toy
+    # Define ring sizes based on colors for ascii art
+    ring_sizes = {
+        "red": "   |_________|  Red",
+        "orange": "    |_______|  Orange",
+        "yellow": "     |_____|  Yellow",
+        "green": "      |___|  Green",
+        "blue": "       |-|  Blue"
+    }
+    
     if not stack:
         print("No rings are left on the toy.")
         return
     
-    print("    _____")
     for color in reversed(stack):  # Show the stack from top to bottom
-        print(f"   |     |")
-        print(f"   |{color.capitalize()} |")
-        print(f"   |_____|")
+        print(ring_sizes[color])
     
-    print("      |")
-    print("      |")
-    print("      |")
-    print("   -----")
+    print("        |")
+    print("        |")
+    print("        |")
+    print("     -----")
 
 def main():
-    stack = []  # Creating empty stack
+    #Starting Stack with all color rings on it.
+    stack = ['red', 'orange', 'yellow', 'green', 'blue']
     colors = ['red', 'orange', 'yellow', 'green', 'blue']  # Available colors
-    #asking user if they want to add or remove a ring
+    
+    print("Starting stack:")
+    display_stack(stack)
+    #Asking for the user's input on whether they want to add or remove a ring
     while True:
         action = input("Do you want to ADD or REMOVE a color? (type 'EXIT' to quit): ").strip().lower()
-        #asking user what color they want to add or remove
+        
         if action == 'add':
             color = input(f"Enter a color to add ({', '.join(colors)}): ").strip().lower()
-            #checking if they color the user inputed is in the color list for the toy if so they will do the desired action if not it will show an error
-            if color in colors:
-                stack.append(color)
-                print(f"{color} added.")
+            #error messages if user input is not valid
+            if color in colors and color not in stack:
+                push(stack, color)
                 display_stack(stack)  # Show the updated stack
+            elif color in stack:
+                print(f"{color.capitalize()} is already on the stack.")
             else:
                 print("Invalid color. Please choose from red, orange, yellow, green, or blue.")
-        
+        #popping the stack to remove a ring if the user input is valid
         elif action == 'remove':
-            if stack:
-                removed_color = stack.pop()
+            removed_color = pop(stack)
+            if removed_color:
                 print(f"Removed {removed_color}.")
                 display_stack(stack)  # Show the updated stack
             else:
                 print("The stack is empty. Nothing to remove.")
-        #^^^^^^^^^^^^^ what it outputs if the stack is empty 
+        #if the user inputs exit the program will end.
         elif action == 'exit':
             print("Exiting program.")
             break
@@ -48,4 +71,4 @@ def main():
             print("Invalid input. Please type 'ADD', 'REMOVE', or 'EXIT'.")
 
 main()
-#end of program if user types in exit
+#running the code
